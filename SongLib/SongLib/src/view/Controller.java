@@ -11,17 +11,55 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.util.ArrayList;
 
 public class Controller
 {
-//Make a call to fetch xml file and store contents in an arrayList w/ the "Songs" while scene is built
 
-    //At exit write all arrayList contents to XML
+    static SongList myList = new SongList();
+
 
 }
 
+/*
+*   This method is to add the song to the SongList
+*
+*   !!!!!!!!! We need to find a way to get the:
+*       NAME, ALBUM, YEAR, ARTIST from the TEXTFIELDS
+*       ONLY IFF they click on add
+*
+* */
+private static void addSong(String name, String Album, String Year, String Artist)
+{
+    myList.setSong(name, Album, Year, Artist);
+}
 
-public int createXML()//TEST METHOD ---- Will switch to a class and make it more OOP
+/*
+*   This is a method that would be activated if someone clicks on song from the list
+*   then Clicks on delete.
+* */
+private static void removeSong(Songs songIn)
+{
+    if(myList.removeSong(songIn) == false)
+    {
+        //this should trigger an error popup on the GUI to let the USER know their STUPID AF!!!
+    }
+}
+
+private static void editSong(Songs EditedSong, Songs OriginalSong)
+{
+    editSong(OriginalSong, EditedSong);
+}
+
+/*
+*   This method is what will be used to store the ArrayList into an XML
+*   This needs to be called on before the EXIT of the program to store the SONGLIST
+*   to long term Memory.
+*
+*   ----------Accepts a ArrayList of Song objects--------------
+*   */
+
+public void createXML(ArrayList<Songs> songs)
 {
     try {
 
@@ -33,43 +71,54 @@ public int createXML()//TEST METHOD ---- Will switch to a class and make it more
         Element rootElement = doc.createElement("songList");
         doc.appendChild(rootElement);
 
-        // staff elements
-        Element staff = doc.createElement("Song");
-        rootElement.appendChild(staff);
 
-        // set attribute to staff element
-        Attr attr = doc.createAttribute("id");
-        attr.setValue("1");
-        staff.setAttributeNode(attr);
 
-        // shorten way
-        // staff.setAttribute("id", "1");
 
-        // firstname elements
-        Element firstname = doc.createElement("name");
-        firstname.appendChild(doc.createTextNode("yong"));
-        staff.appendChild(firstname);
+        for(int i = 0; i<songs.size();i++)
+        {
+            String nameIn = songs.get(i).getName();
+            String artistIn = songs.get(i).getArtist();
+            String albumIn = songs.get(i).getAlbum();
+            String yearIn = songs.get(i).getYear();
 
-        // lastname elements
-        Element lastname = doc.createElement("artist");
-        lastname.appendChild(doc.createTextNode("mook kim"));
-        staff.appendChild(lastname);
+            // staff elements
+            Element song = doc.createElement("Song");
+            rootElement.appendChild(song);
 
-        // nickname elements
-        Element nickname = doc.createElement("album");
-        nickname.appendChild(doc.createTextNode("mkyong"));
-        staff.appendChild(nickname);
+            // set attribute to staff element
+            Attr attr = doc.createAttribute("id");
+            //attr.setValue("1");
+            attr.setValue(Integer.toString(i));
+            song.setAttributeNode(attr);
 
-        // salary elements
-        Element salary = doc.createElement("year");
-        salary.appendChild(doc.createTextNode("100000"));
-        staff.appendChild(salary);
+            // shorten way
+            // staff.setAttribute("id", "1");
 
+            // firstname elements
+            Element songname = doc.createElement("name");
+            songname.appendChild(doc.createTextNode(nameIn));
+            song.appendChild(songname);
+
+            // lastname elements
+            Element artist = doc.createElement("artist");
+            artist.appendChild(doc.createTextNode(artistIn));
+            song.appendChild(artist);
+
+            // nickname elements
+            Element album = doc.createElement("album");
+            album.appendChild(doc.createTextNode(albumIn));
+            song.appendChild(album);
+
+            // salary elements
+            Element year = doc.createElement("year");
+            year.appendChild(doc.createTextNode(yearIn));
+            song.appendChild(year);
+        }
         // write the content into xml file
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         DOMSource source = new DOMSource(doc);
-        StreamResult result = new StreamResult(new File("C:\\file.xml"));
+        StreamResult result = new StreamResult(new File("file.xml"));
 
         // Output to console for testing
         // StreamResult result = new StreamResult(System.out);
@@ -85,11 +134,13 @@ public int createXML()//TEST METHOD ---- Will switch to a class and make it more
     }
 }
 
-public void getXML()
-{
-try {
 
-        File fXmlFile = new File("/Users/mkyong/staff.xml");
+
+public SongList getXML()
+{
+    try {
+
+        File fXmlFile = new File("file.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(fXmlFile);
@@ -100,30 +151,44 @@ try {
 
         System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 
-        NodeList nList = doc.getElementsByTagName("song");
+        NodeList nList = doc.getElementsByTagName("Songs");
 
         System.out.println("----------------------------");
 
+        SongList songsFromXML = new SongList();
+        String name, artist, album, year;
         for (int temp = 0; temp < nList.getLength(); temp++) {
 
-        Node nNode = nList.item(temp);
+            Node nNode = nList.item(temp);
 
-        System.out.println("\nCurrent Element :" + nNode.getNodeName());
+            System.out.println("\nCurrent Element :" + nNode.getNodeName());
 
-        if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
-        Element eElement = (Element) nNode;
+                Element eElement = (Element) nNode;
 
-        System.out.println("Song id : " + eElement.getAttribute("id"));
-        System.out.println("Name : " + eElement.getElementsByTagName("name").item(0).getTextContent());
-        System.out.println("Artist : " + eElement.getElementsByTagName("artist").item(0).getTextContent());
-        System.out.println("Album : " + eElement.getElementsByTagName("album").item(0).getTextContent());
-        System.out.println("Year : " + eElement.getElementsByTagName("year").item(0).getTextContent());
+                //^^^^^^^^^^^^^^^^^^^^ This is for debug ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
+                System.out.println("Song id : " + eElement.getAttribute("id"));
+                System.out.println("Name : " + eElement.getElementsByTagName("name").item(0).getTextContent());
+                System.out.println("Artist : " + eElement.getElementsByTagName("artist").item(0).getTextContent());
+                System.out.println("Album : " + eElement.getElementsByTagName("album").item(0).getTextContent());
+                System.out.println("Year : " + eElement.getElementsByTagName("year").item(0).getTextContent());
 
+                //^^^^^^^^^^^^^^^^^^^^ This is for debug ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
+
+                name = eElement.getElementsByTagName("name").item(0).getTextContent();
+                artist = eElement.getElementsByTagName("artist").item(0).getTextContent();
+                album = eElement.getElementsByTagName("album").item(0).getTextContent();
+                year = eElement.getElementsByTagName("year").item(0).getTextContent()
+
+                songsFromXML.setSong(name, artist, album, year);
+            }
         }
-        }
-        } catch (Exception e) {
+
+        return songsFromXML;
+    } catch (Exception e) {
         e.printStackTrace();
-        }
-        }
+        return null;
+    }
+    return null;
 }
