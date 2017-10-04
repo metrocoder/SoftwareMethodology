@@ -4,10 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.w3c.dom.*;
 
@@ -21,6 +18,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.util.Comparator;
+import java.util.Optional;
 
 public class Controller
 {
@@ -35,7 +33,7 @@ public class Controller
     Button addButton, delButton, editButton;
 
     @FXML
-    TextField inputArtist, inputName, inputAlbum, inputYear;
+    TextField inputArtist, inputSong, inputAlbum, inputYear, displayArtist, displayAlbum, displaySong,displayYear;
 
     @FXML
     public void start(Stage mainStage) {
@@ -43,29 +41,51 @@ public class Controller
         songListView.setItems(songsArray);
         songListView.getSelectionModel().select(0);
 
-        /*songListView.getSelectionModel()
+        songListView.getSelectionModel()
                 .selectedIndexProperty()
                 .addListener(
                         (obs, oldVal, newVal) ->
-                                showItemInputDialog(mainStage));*/
+                                showItemInputDialog(mainStage));
 
 
     }
 
 
+
+
     public void createSong(ActionEvent event) {
-        if (inputArtist.getText().isEmpty() || inputName.getText().isEmpty()) {
+        if (inputArtist.getText().isEmpty() || inputSong.getText().isEmpty()) {
             Alert inputError = new Alert(Alert.AlertType.ERROR);
             inputError.setTitle("Try again.");
             inputError.setContentText("Artist and Song fields must not be empty");
             inputError.showAndWait();
 
         } else {
-            addSong(inputName.getText(),inputAlbum.getText(),inputYear.getText(),inputArtist.getText());
+            addSong(inputSong.getText(),inputAlbum.getText(),inputYear.getText(),inputArtist.getText());
+            sortSongs();
+
         }
     }
 
 
+    public void deleteSong(ActionEvent event)
+    {
+
+    }
+
+
+    private void showItemInputDialog(Stage mainStage) {
+        Songs item = songListView.getSelectionModel().getSelectedItem();
+        int index = songListView.getSelectionModel().getSelectedIndex();
+
+        displayAlbum.setText(item.getAlbum());
+        displayArtist.setText(item.getArtist());
+        displaySong.setText(item.getName());
+        displayYear.setText(item.getYear());
+//
+//        Optional<String> result = dialog.showAndWait();
+//        if (result.isPresent()) { obsList.set(index, result.get()); }
+    }
 
 
 /*

@@ -24,7 +24,7 @@ public class Songs
     @Override
     public String toString()
     {
-        return name + "\t" + album + "\t"  + year + "\t" + artist ;
+        return name +  artist ;
     }
 
     public String getName()
