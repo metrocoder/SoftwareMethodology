@@ -61,8 +61,8 @@
       <file leaf-file-name="SongLibrary.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/SongLibrary.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="15" column="13" lean-forward="false" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+            <state relative-caret-position="335">
+              <caret line="43" column="8" lean-forward="false" selection-start-line="43" selection-start-column="8" selection-end-line="43" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1008#1009#0" expanded="true" />
@@ -72,7 +72,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Songs.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Songs.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/view/Songs.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="374">
@@ -102,13 +102,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Controller.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Controller.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/view/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1428">
-              <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="2" selection-end-line="86" selection-end-column="71" />
+            <state relative-caret-position="1326">
+              <caret line="274" column="0" lean-forward="true" selection-start-line="274" selection-start-column="0" selection-end-line="274" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="file.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/file.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="351" lean-forward="false" selection-start-line="0" selection-start-column="351" selection-end-line="0" selection-end-column="351" />
+              <folding>
+                <marker date="1507141423826" expanded="true" signature="351:361" ph="..." />
               </folding>
             </state>
           </provider>
@@ -157,9 +169,10 @@
         <option value="$PROJECT_DIR$/src/view/SongList.java" />
         <option value="$PROJECT_DIR$/src/app/SongLib.java" />
         <option value="$PROJECT_DIR$/src/view/SongLibGui.fxml" />
-        <option value="$PROJECT_DIR$/src/app/SongLibrary.java" />
-        <option value="$PROJECT_DIR$/src/view/Controller.java" />
         <option value="$PROJECT_DIR$/src/view/Songs.java" />
+        <option value="$PROJECT_DIR$/src/app/SongLibrary.java" />
+        <option value="$PROJECT_DIR$/file.xml" />
+        <option value="$PROJECT_DIR$/src/view/Controller.java" />
       </list>
     </option>
   </component>
@@ -588,18 +601,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/SongLibrary.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="15" column="13" lean-forward="false" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1008#1009#0" expanded="true" />
-            <element signature="e#1036#1037#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/view/SongLibGui.fxml">
       <provider editor-type-id="JavaFX-Scene-Builder">
         <state />
@@ -608,16 +609,6 @@
         <state relative-caret-position="186">
           <caret line="15" column="45" lean-forward="false" selection-start-line="15" selection-start-column="34" selection-end-line="15" selection-end-column="45" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/view/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1428">
-          <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="2" selection-end-line="86" selection-end-column="71" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -645,6 +636,38 @@
             <element signature="e#949#950#0" expanded="true" />
             <element signature="e#997#998#0" expanded="true" />
             <element signature="e#1033#1034#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/SongLibrary.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="43" column="8" lean-forward="false" selection-start-line="43" selection-start-column="8" selection-end-line="43" selection-end-column="8" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1008#1009#0" expanded="true" />
+            <element signature="e#1036#1037#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/file.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="351" lean-forward="false" selection-start-line="0" selection-start-column="351" selection-end-line="0" selection-end-column="351" />
+          <folding>
+            <marker date="1507141423826" expanded="true" signature="351:361" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/view/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1326">
+          <caret line="274" column="0" lean-forward="true" selection-start-line="274" selection-start-column="0" selection-end-line="274" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

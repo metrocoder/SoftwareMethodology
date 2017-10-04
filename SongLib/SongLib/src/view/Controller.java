@@ -37,7 +37,7 @@ public class Controller
 
     @FXML
     public void start(Stage mainStage) {
-        //Do the call
+        getXML();
         songListView.setItems(songsArray);
         songListView.getSelectionModel().select(0);
 
@@ -48,6 +48,9 @@ public class Controller
                                 showItemInputDialog(mainStage));
 
 
+        Stage window = mainStage;
+
+        window.setOnCloseRequest(event -> createXML(songsArray));
     }
 
 
@@ -175,6 +178,7 @@ public class Controller
 
 public void createXML(ObservableList<Songs> songs)
 {
+    System.out.println("Saving to XML");
     try {
 
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -267,11 +271,11 @@ public void getXML()
         //read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
         doc.getDocumentElement().normalize();
 
-        System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+//        System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 
-        NodeList nList = doc.getElementsByTagName("Songs");
+        NodeList nList = doc.getElementsByTagName("Song");
 
-        System.out.println("----------------------------");
+//        System.out.println("----------------------------");
 
 
         String name, artist, album, year;
@@ -279,19 +283,19 @@ public void getXML()
 
             Node nNode = nList.item(temp);
 
-            System.out.println("\nCurrent Element :" + nNode.getNodeName());
+            //System.out.println("\nCurrent Element :" + nNode.getNodeName());
 
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
                 Element eElement = (Element) nNode;
 
                 //^^^^^^^^^^^^^^^^^^^^ This is for debug ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
-                System.out.println("Song id : " + eElement.getAttribute("id"));
+                /*System.out.println("Song id : " + eElement.getAttribute("id"));
                 System.out.println("Name : " + eElement.getElementsByTagName("name").item(0).getTextContent());
                 System.out.println("Artist : " + eElement.getElementsByTagName("artist").item(0).getTextContent());
                 System.out.println("Album : " + eElement.getElementsByTagName("album").item(0).getTextContent());
                 System.out.println("Year : " + eElement.getElementsByTagName("year").item(0).getTextContent());
-
+*/
                 //^^^^^^^^^^^^^^^^^^^^ This is for debug ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 
                 name = eElement.getElementsByTagName("name").item(0).getTextContent();
