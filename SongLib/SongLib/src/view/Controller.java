@@ -1,5 +1,14 @@
 package view;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -11,15 +20,53 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Controller
 {
 
-    static SongList myList = new SongList();
+    private final ObservableList<Songs> songsArray = FXCollections.observableArrayList();
 
 
-}
+    @FXML
+    ListView<Songs> songListView;
+
+    @FXML
+    Button addButton, delButton, editButton;
+
+    @FXML
+    TextField inputArtist, inputName, inputAlbum, inputYear;
+
+    @FXML
+    public void start(Stage mainStage) {
+        //Do the call
+        songListView.setItems(songsArray);
+        songListView.getSelectionModel().select(0);
+
+        /*songListView.getSelectionModel()
+                .selectedIndexProperty()
+                .addListener(
+                        (obs, oldVal, newVal) ->
+                                showItemInputDialog(mainStage));*/
+
+
+    }
+
+
+    public void createSong(ActionEvent event) {
+        if (inputArtist.getText().isEmpty() || inputName.getText().isEmpty()) {
+            Alert inputError = new Alert(Alert.AlertType.ERROR);
+            inputError.setTitle("Try again.");
+            inputError.setContentText("Artist and Song fields must not be empty");
+            inputError.showAndWait();
+
+        } else {
+            addSong(inputName.getText(),inputAlbum.getText(),inputYear.getText(),inputArtist.getText());
+        }
+    }
+
+
+
 
 /*
 *   This method is to add the song to the SongList
@@ -29,37 +76,84 @@ public class Controller
 *       ONLY IFF they click on add
 *
 * */
-private static void addSong(String name, String Album, String Year, String Artist)
-{
-    myList.setSong(name, Album, Year, Artist);
-}
 
-/*
-*   This is a method that would be activated if someone clicks on song from the list
-*   then Clicks on delete.
-* */
-private static void removeSong(Songs songIn)
-{
-    if(myList.removeSong(songIn) == false)
+    public void addSong(String name, String Album, String Year, String Artist)
     {
-        //this should trigger an error popup on the GUI to let the USER know their STUPID AF!!!
+        Songs temp = new Songs(name,Album,Year, Artist);
+        if(songsArray.indexOf(temp)>=0)
+        {
+            //Means that there is a duplicate so populate ERROR popup
+        }
+        else
+        {
+            songsArray.add(temp);
+        }
     }
-}
 
-private static void editSong(Songs EditedSong, Songs OriginalSong)
-{
-    editSong(OriginalSong, EditedSong);
-}
+    public void removeSong(String name, String Album, String Year, String Artist)
+    {
+        Songs temp = new Songs(name,Album,Year, Artist);
+        if(songsArray.indexOf(temp)>=0)
+        {
+            songsArray.remove(songsArray.indexOf(temp));//Check if this works!!!
+        }
+        else
+        {
+            //Means that there isn't a song like that in the list so populate ERROR popup
+        }
+    }
+
+    public void editSong(Songs old, Songs replacement)
+    {
+
+        if(songsArray.indexOf(old)>=0)
+        {
+            removeSong(old.getName(),old.getAlbum(),old.getYear(),old.getArtist());
+            addSong(replacement.getName(),replacement.getAlbum(),replacement.getYear(),replacement.getArtist());
+        }
+        else
+        {
+            //Means that there isn't a song like that in the list so populate ERROR popup
+        }
+    }
 
 /*
-*   This method is what will be used to store the ArrayList into an XML
-*   This needs to be called on before the EXIT of the program to store the SONGLIST
-*   to long term Memory.
+*   This method is going to be used after any modifications are made to the SONGS
+*   and BEFORE we save the LIST.
+*
+*   VERY IMPORTANT PART OF THE ASSIGNMENT
+* */
+    public void sortSongs()
+    {
+        if (songsArray.size()==0)
+            return;
+
+        /*
+        *    Lets see if soring first by artist then by song name does the trick
+        *
+        * */
+        songsArray.sort(Comparator.comparing(Songs::getArtist));
+        songsArray.sort(Comparator.comparing(Songs::getName));
+        //Need to Loop through this sorted array list and see if there are any
+        //name duplicates and if so sort the songs with duplicate song names by artist and swap there
+        //respective indices in the ArrayList.
+
+        /*for (int i=1;i<song.size();i++)
+        {
+            if (song.get(i).name.compareTo(song.get(i+1)))
+        }*/
+    }
+
+
+/*
+*   This method is what will be used to store the ObservableList into an XML
+*   This needs to be called on before the EXIT of the program to store the data
+*   to long term Memory.!!!!!!!!!!!!!!!!!!!
 *
 *   ----------Accepts a ArrayList of Song objects--------------
 *   */
 
-public void createXML(ArrayList<Songs> songs)
+public void createXML(ObservableList<Songs> songs)
 {
     try {
 
@@ -136,7 +230,11 @@ public void createXML(ArrayList<Songs> songs)
 
 
 
-public SongList getXML()
+/*
+*   You need to call this method when program starts to populate the
+*   LISTVIEW with the saved data.
+* */
+public void getXML()
 {
     try {
 
@@ -155,7 +253,7 @@ public SongList getXML()
 
         System.out.println("----------------------------");
 
-        SongList songsFromXML = new SongList();
+
         String name, artist, album, year;
         for (int temp = 0; temp < nList.getLength(); temp++) {
 
@@ -179,16 +277,16 @@ public SongList getXML()
                 name = eElement.getElementsByTagName("name").item(0).getTextContent();
                 artist = eElement.getElementsByTagName("artist").item(0).getTextContent();
                 album = eElement.getElementsByTagName("album").item(0).getTextContent();
-                year = eElement.getElementsByTagName("year").item(0).getTextContent()
+                year = eElement.getElementsByTagName("year").item(0).getTextContent();
 
-                songsFromXML.setSong(name, artist, album, year);
+                addSong(name,album,year,artist);
             }
         }
-
-        return songsFromXML;
-    } catch (Exception e) {
+    } catch (Exception e)
+    {
         e.printStackTrace();
-        return null;
+
     }
-    return null;
+}
+
 }

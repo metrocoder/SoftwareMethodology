@@ -1,8 +1,11 @@
 package view;
 
+import javafx.collections.ObservableArray;
+
 import java.util.ArrayList;
 
 public class Songs
+
 {
     String name;
     String album;
@@ -21,12 +24,7 @@ public class Songs
     @Override
     public String toString()
     {
-        return "Songs{" +
-                "name='" + name + '\'' +
-                ", album='" + album + '\'' +
-                ", year='" + year + '\'' +
-                ", artist='" + artist + '\'' +
-                '}';
+        return name + "\t" + album + "\t"  + year + "\t" + artist ;
     }
 
     public String getName()
